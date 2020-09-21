@@ -24,8 +24,6 @@ def infix_to_postfix(input_str):
     i = 0
     while i < len(input_str):
         type = type_check(input_str[i])
-        if len(postfix) > i:
-            i = len(postfix)
         if type == 4:
             new = infix_to_postfix(input_str[i + 1:len(input_str)])
             postfix += new
@@ -42,7 +40,7 @@ def infix_to_postfix(input_str):
                 operators.push(input_str[i])
                 i += 1
             else:
-                if type_check(operators.peek()) >= type and not operators.is_empty():
+                if type_check(operators.peek()) >= type:
                     postfix += operators.pop()
                     operators.push(input_str[i])
                     i += 1
