@@ -8,11 +8,11 @@ def type_check(character):
         return 1
     elif character in ["*", "/"]:
         return 2
-    elif character in ["^"]:
+    elif character == "^":
         return 3
-    elif character in ["("]:
+    elif character == "(":
         return 4
-    elif character in [")"]:
+    elif character == ")":
         return 5
     else:
         raise ValueError
@@ -56,5 +56,43 @@ def infix_to_postfix(input_str):
     return postfix
 
 
-print(infix_to_postfix("3+4^(5+3)*(4+2)"))
-print(infix_to_postfix("3+4^((5+3)*(4+2))"))
+def postfix_eval(input_str):
+    numbers = StackArray(30)
+    answer = 0
+    i = 0
+    while i < len(input_str):
+        type = type_check(input_str[i])
+        if type == 0:
+            numbers.push(input_str[i])
+        else:
+            if input_str[i] == "+":
+                a = int(numbers.pop())
+                b = int(numbers.pop())
+                answer = a + b
+                numbers.push(answer)
+            elif input_str[i] == "-":
+                a = int(numbers.pop())
+                b = int(numbers.pop())
+                answer = b - a
+                numbers.push(answer)
+            elif input_str[i] == "*":
+                a = int(numbers.pop())
+                b = int(numbers.pop())
+                answer = a * b
+                numbers.push(answer)
+            elif input_str[i] == "/":
+                a = int(numbers.pop())
+                b = int(numbers.pop())
+                answer = b / a
+                numbers.push(answer)
+            elif input_str[i] == "^":
+                a = int(numbers.pop())
+                b = int(numbers.pop())
+                answer = b ** a
+                numbers.push(answer)
+        i += 1
+    return answer
+
+print(postfix_eval(infix_to_postfix("4^(1+1)*2+3")))
+
+
